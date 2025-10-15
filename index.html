@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feliz Cumpleaños</title>
+  <style>
+    :root{
+      /* Fondo: GIF de Blogger */
+      --bg-url: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjEr4GHroT_OR5dJ_VymR8wtwTry659tThdexqLHfxbwJQLWvxufoYyqWtqaScfw99unxj9Pdz1V9Co9PTNvOWuhdl6_rLPtmw0zCYC4flMk9eALfYEXiVmDqQ3pKXBcFLi5HQL_V8AvlRB/s1600/giphy+%25281%2529.gif');
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      font-family:system-ui, -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      background-image:var(--bg-url); background-size:cover; background-position:center; background-attachment:fixed;
+      color:#0b1320; overflow-x:hidden; position:relative;
+    }
+    body::before{content:""; position:fixed; inset:0; background:rgba(0,0,0,.28); pointer-events:none}
+
+    .card{position:relative; z-index:1; text-align:center; padding:clamp(16px,4vw,32px); width:min(980px,94vw)}
+    .title{margin:0 0 .2em; line-height:1; font-weight:900; color:#111; text-shadow:0 2px 8px rgba(255,255,255,.7); font-size:clamp(48px,8vw,96px)}
+    .title span{display:block}
+    .subtitle{margin:.25em 0 1em; font-size:clamp(16px,2.6vw,22px); color:#111; text-shadow:0 2px 6px rgba(255,255,255,.85)}
+
+    .photos{display:flex; gap:clamp(12px,3vw,24px); justify-content:center; flex-wrap:wrap; margin-top:8px}
+    .photo{
+      width:clamp(120px,22vw,220px); aspect-ratio:1/1; object-fit:cover;
+      border-radius:18px; border:3px solid rgba(255,255,255,.9); background:#fff;
+      box-shadow:0 12px 30px rgba(0,0,0,.25); transition:transform .2s ease
+    }
+    .photo:hover{transform:translateY(-4px)}
+
+    .controls{margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
+    .btn{
+      padding:12px 18px; border:0; border-radius:12px; background:#0b274a; color:#fff;
+      font-weight:700; cursor:pointer; box-shadow:0 10px 20px rgba(0,0,0,.25)
+    }
+    .btn:hover{filter:brightness(1.08)}
+    .hint{font-size:.9rem; color:#111; margin-top:6px; opacity:.9}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1 class="title">
+      <span>FELIZ</span>
+      <span>CUMPLEAÑOS</span>
+    </h1>
+
+    <p class="subtitle">Te deseo lo mejor en tu día especial 🥳🥳🎂🎂</p>
+
+    <div class="photos">
+      <img src="foto1.jpg" alt="Foto 1" class="photo">
+      <img src="foto2.jpg" alt="Foto 2" class="photo">
+    </div>
+
+    <div class="controls">
+      <button id="toggle" class="btn">🎵 Reproducir</button>
+    </div>
+    <div class="hint">Si no suena, haz clic en “Reproducir”.</div>
+
+    <!-- Música local -->
+    <audio id="musica" src="cumple.mp3" loop preload="auto"></audio>
+  </main>
+
+  <script>
+    const audio  = document.getElementById('musica');
+    const toggle = document.getElementById('toggle');
+
+    audio.volume = 0.7;
+
+    toggle.addEventListener('click', async () => {
+      try{
+        if (audio.paused) {
+          await audio.play();
+          toggle.textContent = '⏸️ Pausar';
+        } else {
+          audio.pause();
+          toggle.textContent = '🎵 Reproducir';
+        }
+      } catch (e) {
+        console.log('Se requiere interacción del usuario:', e);
+      }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !audio.paused) audio.play().catch(()=>{});
+    });
+  </script>
+</body>
+</html>
